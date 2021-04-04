@@ -48,7 +48,5 @@ EXPECT_EXIT(square_root(-4), ::testing::ExitedWithCode(1),
 // If not defined gtest_main will do it for you.
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
-  /* return */ RUN_ALL_TESTS(); // result should be returned
-  // (here fatal tests are ok)
-  return EXIT_SUCCESS;
+  return RUN_ALL_TESTS(); // result should be returned
 }

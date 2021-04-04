@@ -27,6 +27,20 @@ option(ENABLE_MEMCHECK "Enable memcheck on tests" OFF)
 
 #------------------------------------------------------
 
+# Default build type is RelWIthDebInfo
+if (NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
+            "Choose the type of build: Debug Release RelWithDebInfo MinSizeRel"
+            FORCE)
+else ()
+    string(REGEX MATCH "^(Debug|Release|RelWithDebInfo|MinSizeRel)$" VALID_BUILD_TYPE "${CMAKE_BUILD_TYPE}")
+    if (VALID_BUILD_TYPE STREQUAL "")
+        message(FATAL_ERROR "Invalid CMAKE_BUILD_TYPE: '${CMAKE_BUILD_TYPE}'")
+    endif ()
+endif ()
+
+#------------------------------------------------------
+
 # Can be locally overridden using set_target_properties + https://cmake.org/cmake/help/latest/prop_tgt/LANG_VISIBILITY_PRESET.html
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_POLICY_DEFAULT_CMP0063 NEW) # Honor the visibility properties for all target types

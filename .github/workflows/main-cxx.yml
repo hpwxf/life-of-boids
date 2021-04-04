@@ -41,7 +41,7 @@ jobs:
           - name: "macOS Debug"
             os: macOS-10.15
             mode: Debug
-            compiler: clang-11
+            compiler: apple-clang
 #          - name: "Windows Debug"
 #            os: windows-2019
 #            mode: Debug
@@ -83,7 +83,6 @@ jobs:
             sudo apt install -qy valgrind
           fi
         if: runner.os == 'Linux' # or use $RUNNER_OS
-
 
       - name: install
         shell: bash

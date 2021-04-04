@@ -8,7 +8,7 @@ else
   CTEST_FLAGS=--output-on-failure
 fi
 
-cd build
+cd cpp/build
 
 if [[ "$ENABLE_COVERAGE" == "on" ]]; then
     cmake --build . --target coverage --config "${MODE}"
