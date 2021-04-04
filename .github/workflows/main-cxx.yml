@@ -35,22 +35,24 @@ jobs:
       matrix:
         include:
           - name: "Linux Debug"
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             mode: Debug
+            compiler: gcc-10
           - name: "macOS Debug"
             os: macOS-10.15
             mode: Debug
+            compiler: clang-11
 #          - name: "Windows Debug"
 #            os: windows-2019
 #            mode: Debug
 #          - name: "Coverage mode"
-#            os: ubuntu-18.04
+#            os: ubuntu-20.04
 #            mode: Debug
 #            enable_coverage: on
 #            force_update: on
 #            # /!\ need after_success
 #          - name: "Memcheck mode"
-#            os: ubuntu-18.04
+#            os: ubuntu-20.04
 #            mode: Debug
 #            enable_memcheck: on
 #            force_update: on
