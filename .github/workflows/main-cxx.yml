@@ -1,0 +1,108 @@
+name: Github CI
+
+# https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions#on
+on:
+  push:
+
+# About image content:
+# https://github.com/actions/virtual-environments/blob/ubuntu18/20201210.0/images
+
+# Global GHA doc:
+# https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions
+
+# To define local environment variable inside build steps
+# https://github.community/t/support-saving-environment-variables-between-steps/16230
+
+# Support for YAML anchors:
+# https://github.community/t/support-for-yaml-anchors/16128
+
+
+# Default working directory is equivalent to
+#   working-directory: ${{github.workspace}}
+# always set shell (could be powershell in windows environment)
+#   shell: bash
+
+
+env:
+  DEBUG_CI: true
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Linux Debug"
+            os: ubuntu-18.04
+            mode: Debug
+          - name: "macOS Debug"
+            os: macOS-10.15
+            mode: Debug
+#          - name: "Windows Debug"
+#            os: windows-2019
+#            mode: Debug
+#          - name: "Coverage mode"
+#            os: ubuntu-18.04
+#            mode: Debug
+#            enable_coverage: on
+#            force_update: on
+#            # /!\ need after_success
+#          - name: "Memcheck mode"
+#            os: ubuntu-18.04
+#            mode: Debug
+#            enable_memcheck: on
+#            force_update: on
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+
+      - name: Define local variables
+        shell: bash
+        run: |
+          echo "MODE=${{matrix.mode}}"                           >> $GITHUB_ENV
+          echo "ENABLE_COVERAGE=${{matrix.enable_coverage}}"     >> $GITHUB_ENV
+          echo "ENABLE_MEMCHECK=${{matrix.enable_memcheck}}"     >> $GITHUB_ENV
+          echo "COMPILER=${{matrix.compiler}}"                   >> $GITHUB_ENV
+
+      - name: pre-install-linux
+        shell: bash
+        run: |
+          if [ "${{matrix.force_update}}" == "on" ]; then
+            sudo apt update
+          fi
+          if [ "${ENABLE_COVERAGE}" == "on" ]; then
+            sudo apt install -qy lcov
+          fi
+          if [ "${ENABLE_MEMCHECK}" == "on" ]; then
+            sudo apt install -qy valgrind
+          fi
+        if: runner.os == 'Linux' # or use $RUNNER_OS
+
+
+      - name: install
+        shell: bash
+        run: cpp/.ci/install.sh
+
+      - name: before_script
+        shell: bash
+        run: cpp/.ci/before_script.sh
+
+      - name: script
+        shell: bash
+        run: cpp/.ci/build.sh
+
+      - name: test
+        shell: bash
+        run: cpp/.ci/test.sh
+
+      - name: publish_report
+        shell: bash
+        run: |
+          cd cpp/build
+          lcov --list coverage.info
+          coveralls-lcov coverage.info
+        if: matrix.enable_coverage == 'on'
