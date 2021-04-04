@@ -40,6 +40,15 @@ if [[ "$DEBUG_CI" == "true" ]]; then
 
     echo "------------------------------------"
 
+    if ( command -v conan >/dev/null 2>&1 ); then
+      echo "conan config: $(command -v conan)"
+      conan --version 2>&1 | sed 's/^/  /'
+    else
+      echo "No conan command found"
+    fi
+
+    echo "------------------------------------"
+
     echo "EXTRA_CMAKE_OPTIONS = ${EXTRA_CMAKE_OPTIONS}"
 
     echo "------------------------------------"
