@@ -1,0 +1,1 @@
+add_executable(life-of-bois main.cpp)
