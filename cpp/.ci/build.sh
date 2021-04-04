@@ -38,8 +38,11 @@ esac
 cd cpp
 mkdir -p build
 cd build
+# /!\ warning profile is not set 
+conan install ../../
 cmake \
   -G "Unix Makefiles" \
+  -DCMAKE_TOOLCHAIN_FILE=conan_paths.cmake \
   -DCMAKE_BUILD_TYPE="${MODE}" \
   -DENABLE_COVERAGE="${ENABLE_COVERAGE}" \
   -DENABLE_MEMCHECK="${ENABLE_MEMCHECK}" \

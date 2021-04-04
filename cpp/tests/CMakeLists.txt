@@ -1,14 +1,18 @@
 include(CTest)
 
-# target_link_libraries links the executable to the library.
-# Since the library has public include directories we will use those link directories when building
+find_package(GTest REQUIRED)
+include(GoogleTest)
 
 # Build a list of test binaries
 add_custom_target(all_test_binaries COMMENT "all unit tests.")
 
-#add_executable(test_name test_name.cpp)
-#target_link_libraries(class_unit_test LINK_PUBLIC MyLib)
-#add_dependencies(all_test_binaries class_unit_test)
+add_executable(first_test first_test.cpp)
+add_dependencies(all_test_binaries first_test)
+target_link_libraries(first_test ${GTEST_LIBRARY} ${GTEST_MAIN_LIBRARY})
+target_include_directories(first_test PUBLIC toto ${GTEST_INCLUDE_DIR})
+gtest_discover_tests(first_test) # helps to split one ctest executable into multiple google tests
+#add_test(NAME first_test COMMAND first_test)
+#set_property(TEST first_test PROPERTY LABELS "GTest")
 
 # Can be enabled if necessary
 #if (CXX_CLANG_TIDY)
@@ -18,9 +22,6 @@ add_custom_target(all_test_binaries COMMENT "all unit tests.")
 #                CXX_CLANG_TIDY ${CXX_CLANG_TIDY})
 #    endforeach ()
 #endif ()
-
-## Manual test
-#add_test(NAME test_name COMMAND test_name)
 
 #set(PARSE_CATCH_TESTS_VERBOSE ON)
 

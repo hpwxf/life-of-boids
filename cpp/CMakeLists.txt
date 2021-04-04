@@ -9,6 +9,9 @@ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# This message also avoid warning : "Manually-specified variables were not used by the project"
+message(STATUS "Using toolchain file: ${CMAKE_TOOLCHAIN_FILE}")
+
 #------------------------------------------------------
 project(life_of_boids
         VERSION "0.0.0")
@@ -106,9 +109,7 @@ add_subdirectory(src)
 
 #------------------------------------------------------
 
-include(CTest)
 add_subdirectory(tests)
-
 add_custom_target(run_unit_tests
         COMMAND ${CMAKE_CTEST_COMMAND} -j ${PROCESSOR_COUNT}
         COMMENT "Executing unit tests."
