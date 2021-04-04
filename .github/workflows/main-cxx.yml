@@ -88,11 +88,11 @@ jobs:
         shell: bash
         run: cpp/.ci/install.sh
 
-      - name: before_script
+      - name: info
         shell: bash
-        run: cpp/.ci/before_script.sh
+        run: cpp/.ci/info.sh
 
-      - name: script
+      - name: build
         shell: bash
         run: cpp/.ci/build.sh
 
