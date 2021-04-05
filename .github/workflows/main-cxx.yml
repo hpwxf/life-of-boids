@@ -82,6 +82,7 @@ jobs:
           if [ "${ENABLE_MEMCHECK}" == "on" ]; then
             sudo apt install -qy valgrind
           fi
+          sudo apt install -qy libgl-dev
         if: runner.os == 'Linux' # or use $RUNNER_OS
 
       - name: install
