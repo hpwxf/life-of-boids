@@ -1,6 +1,11 @@
 [requires]
 gtest/1.10.0
-imgui/1.82
+#imgui/1.82
+cli11/1.9.1
+spdlog/1.8.5
+fmt/7.1.3
+glfw/3.3.3
+glad/0.1.34
 
 [generators]
 cmake_paths
