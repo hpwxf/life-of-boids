@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <array>
 #include <fmt/core.h>
+#include <cmath>
 
 using vec2 = std::array<float, 2>;
 using vec3 = std::array<float, 3>;
@@ -29,8 +30,8 @@ inline mat4x4 mat4x4_mul(mat4x4 const& a, mat4x4 const& b) {
 }
 
 inline mat4x4 mat4x4_rotate_Z(mat4x4 const& M, float angle) {
-  float s = sinf(angle);
-  float c = cosf(angle);
+  float s = std::sin(angle);
+  float c = std::cos(angle);
   mat4x4 R = {{
       {{c, s, 0, 0}},   //
       {{-s, c, 0, 0}},  //
