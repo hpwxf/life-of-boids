@@ -9,7 +9,7 @@ add_custom_target(all_test_binaries COMMENT "all unit tests.")
 add_executable(first_test first_test.cpp)
 add_dependencies(all_test_binaries first_test)
 target_link_libraries(first_test PRIVATE GTest::gtest GTest::gtest_main)
-target_include_directories(first_test PRIVATE toto ${GTest_INCLUDE_DIRS})
+target_include_directories(first_test PRIVATE ${GTest_INCLUDE_DIRS})
 gtest_discover_tests(first_test) # helps to split one ctest executable into multiple google tests
 #add_test(NAME first_test COMMAND first_test)
 #set_property(TEST first_test PROPERTY LABELS "GTest")
